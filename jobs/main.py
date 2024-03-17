@@ -23,7 +23,7 @@ def main():
     df = spark.read.option("header", "true").csv(
         "/opt/bitnami/spark/data/teste.csv")
 
-    # df = df.repartition(num_workers)
+    df = df.repartition(num_workers)
 
     # Inicializa DataSender
     data_sender = DataSender(endpoint, retries)
