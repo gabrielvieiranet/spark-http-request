@@ -14,10 +14,10 @@ Depois execute o script:
 ./run-job.sh
 ```
 
-Para entender a diferença, comente a linha abaixo em jobs/main.py:
+Para entender a diferença, comente a linha abaixo em jobs/main.py e rode o script novamente:
 
 ```
 df = df.repartition(5)
 ```
 
-Note que se não particionamos os dados, eles não podem ser distribuídos entre os workers.
+Você vai ver que agora ficou mais lento porque não particionamos os dados e eles não foram distribuídos entre os workers.
