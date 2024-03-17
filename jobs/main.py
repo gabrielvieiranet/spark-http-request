@@ -1,38 +1,46 @@
-import requests
+import time
+
 from pyspark.sql import SparkSession
+from utils.data_sender import DataSender
 
 
-def send_to_api(rows):
-    api_endpoint = "http://api:5000/"
-    for row in rows:
-
-        data = {
-            "id": row.id,
-            "produto": row.produto,
-            "ativo": row.ativo
-        }
-        response = requests.post(api_endpoint, json=data)
-        if response.status_code != 200:
-            print(
-                f"Erro. Status: {response.status_code}")
-        else:
-            print(response.content)
+class TerminalColors:
+    GREEN = '\033[92m'
+    RESET = '\033[0m'
 
 
 def main():
+    num_workers = 5
+    endpoint = "http://api:5000/"
+    retries = 100
 
     # SparkSession
     spark = SparkSession.builder \
         .appName("Enviar para API") \
         .getOrCreate()
 
+    # Carrega dataset e reparticiona
     df = spark.read.option("header", "true").csv(
         "/opt/bitnami/spark/data/teste.csv")
 
-    # particionando os dados para distribuir entre os workers
-    df = df.repartition(5)
+    # df = df.repartition(num_workers)
 
-    df.foreachPartition(send_to_api)
+    # Inicializa DataSender
+    data_sender = DataSender(endpoint, retries)
+
+    # Inicia envios HTTP
+    start_time = time.time()
+
+    df.foreachPartition(data_sender.send_data)
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    print(
+        f"Tempo gasto: {TerminalColors.GREEN}"
+        f"{elapsed_time:.2f}"
+        f"{TerminalColors.RESET} segundos"
+    )
 
     spark.stop()
 

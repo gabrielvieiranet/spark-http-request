@@ -1,2 +1,4 @@
 .mypy_cache/
 .venv/
+*.zip
+__pycache__/

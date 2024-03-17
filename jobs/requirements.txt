@@ -1,0 +1,4 @@
+requests
+types-requests
+wheel
+pyspark
