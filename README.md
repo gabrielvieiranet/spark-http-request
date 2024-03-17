@@ -1,6 +1,6 @@
 # Spark HTTP Request
 
-Este repositório contém um projeto que demonstra como usar o Apache Spark para realizar chamadas HTTP REST distribuídas. Ele inclui um exemplo de código que carrega dados de um arquivo CSV usando o Spark, transforma esses dados e os envia para uma API REST usando a biblioteca requests em Python.
+Este repositório contém um projeto que demonstra como usar o Apache Spark para realizar chamadas HTTP REST distribuídas. Ele inclui um exemplo de código que carrega dados de um arquivo CSV, transforma esses dados e os envia para uma API REST usando a biblioteca requests em Python.
 
 Execute o Docker Compose:
 
